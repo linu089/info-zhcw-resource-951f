@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
+    <title>极速赛车 · 信息卡片</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #f0ece4;
+            font-family: 'Segoe UI', 'Noto Sans SC', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: #2b2b2b;
+            padding: 2rem 1rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .page {
+            max-width: 820px;
+            margin: 0 auto;
+            width: 100%;
+            background: #faf8f4;
+            border-radius: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+            padding: 2.4rem 2rem 2.8rem;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.25rem;
+            color: #1f1f1f;
+            border-left: 4px solid #b7a68c;
+            padding-left: 1rem;
+        }
+
+        .subhead {
+            color: #6b6258;
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+            padding-left: 1.25rem;
+            border-left: 4px solid #e0d6c8;
+        }
+
+        /* 主视觉卡片 */
+        .hero-card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 1.8rem 1.8rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            margin-bottom: 2.2rem;
+            border: 1px solid #ede7dd;
+        }
+
+        .hero-card p {
+            font-size: 1.05rem;
+            color: #36322c;
+            margin-bottom: 1rem;
+        }
+
+        .hero-card .quote-line {
+            background: #f5f0e8;
+            padding: 0.7rem 1.2rem;
+            border-radius: 12px;
+            border-left: 4px solid #b7a68c;
+            font-style: normal;
+            color: #4a4238;
+            margin: 1rem 0 0.5rem;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .hero-card .quote-line strong {
+            font-weight: 600;
+            color: #2f2a22;
+        }
+
+        /* 两列卡片布局，灵活响应 */
+        .card-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 2rem 0 2rem;
+        }
+
+        .info-card {
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 1.5rem 1.4rem 1.6rem;
+            box-shadow: 0 1px 6px rgba(0,0,0,0.02);
+            border: 1px solid #ede7dd;
+            transition: box-shadow 0.2s;
+        }
+
+        .info-card:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+        }
+
+        .info-card h3 {
+            font-size: 1.15rem;
+            font-weight: 500;
+            margin-bottom: 0.6rem;
+            color: #1f1f1f;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .info-card h3::before {
+            content: "▸";
+            color: #b7a68c;
+            font-size: 1.1rem;
+            margin-right: 0.2rem;
+        }
+
+        .info-card p, .info-card ul {
+            font-size: 0.94rem;
+            color: #46413a;
+        }
+
+        .info-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .info-card li {
+            padding: 0.2rem 0;
+            position: relative;
+            padding-left: 1.1rem;
+        }
+
+        .info-card li::before {
+            content: "–";
+            position: absolute;
+            left: 0;
+            color: #b7a68c;
+        }
+
+        /* 适合人群——单行标签式 */
+        .audience-block {
+            background: #f5f0e8;
+            border-radius: 20px;
+            padding: 1.6rem 1.8rem;
+            margin: 1.8rem 0 2rem;
+            border: 1px solid #e4dbcf;
+        }
+
+        .audience-block h2 {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 0.8rem;
+            color: #1f1f1f;
+            letter-spacing: 0.01em;
+        }
+
+        .audience-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem 0.7rem;
+        }
+
+        .audience-tags span {
+            background: white;
+            padding: 0.25rem 1rem;
+            border-radius: 30px;
+            font-size: 0.88rem;
+            border: 1px solid #ddd7cc;
+            color: #3a352e;
+        }
+
+        /* 引用 / 提示框 */
+        .callout {
+            background: #f0ebe2;
+            border-radius: 16px;
+            padding: 1.2rem 1.6rem;
+            margin: 1.8rem 0 1.8rem;
+            border: 1px solid #e0d6c8;
+            font-size: 0.95rem;
+            color: #3f3a33;
+        }
+
+        .callout strong {
+            font-weight: 600;
+            color: #2b2620;
+        }
+
+        .callout a {
+            color: #5b4f3e;
+            text-decoration: none;
+            border-bottom: 1px dotted #b7a68c;
+            font-weight: 500;
+        }
+
+        .callout a:hover {
+            border-bottom: 2px solid #8f7d66;
+        }
+
+        /* 自然链接段落 */
+        .natural-link-section {
+            padding: 0.5rem 0 1rem;
+            font-size: 0.96rem;
+        }
+
+        .natural-link-section p {
+            margin-bottom: 0.7rem;
+        }
+
+        .natural-link-section a {
+            color: #5b4f3e;
+            text-decoration: none;
+            border-bottom: 1px solid #cfc5b6;
+            font-weight: 500;
+        }
+
+        .natural-link-section a:hover {
+            border-bottom: 2px solid #8f7d66;
+        }
+
+        /* FAQ 摘要——轻量 */
+        .faq-mini {
+            margin: 2.2rem 0 0.8rem;
+            border-top: 1px solid #e4dbcf;
+            padding-top: 2rem;
+        }
+
+        .faq-item {
+            margin-bottom: 1.2rem;
+        }
+
+        .faq-item .q {
+            font-weight: 500;
+            color: #2b2620;
+            margin-bottom: 0.2rem;
+        }
+
+        .faq-item .a {
+            color: #4f483e;
+            font-size: 0.92rem;
+            padding-left: 0.2rem;
+        }
+
+        /* 响应式 */
+        @media (max-width: 640px) {
+            .page {
+                padding: 1.5rem 1rem;
+            }
+            h1 {
+                font-size: 1.6rem;
+                padding-left: 0.75rem;
+            }
+            .card-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            .hero-card {
+                padding: 1.2rem;
+            }
+            .audience-block {
+                padding: 1.2rem 1rem;
+            }
+            .callout {
+                padding: 1rem;
+            }
+            .subhead {
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 420px) {
+            body {
+                padding: 0.8rem 0.5rem;
+            }
+            .page {
+                border-radius: 16px;
+            }
+        }
+
+        footer {
+            margin-top: 2.5rem;
+            font-size: 0.8rem;
+            color: #8a8276;
+            text-align: left;
+            border-top: 1px solid #eae2d6;
+            padding-top: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+
+    <h1>极速赛车</h1>
+    <div class="subhead">从日常查询到对照笔记 · 信息卡片</div>
+
+    <!-- 主视觉卡片 -->
+    <div class="hero-card">
+        <p>在信息碎片里，速度往往被简化为一个数字。而当我们把视线拉平，赛车世界的层次远比想象中丰富——从引擎的调校到弯道的走线，每一点细节都构成理解的基底。对于想要系统了解赛车信息的读者来说，一个条目清晰、便于对照的参考页面，比单纯的资讯流更有用。</p>
+        <div class="quote-line">
+            <strong>日常查询的场景</strong>：排位赛成绩、轮胎策略、赛道纪录……当这些信息以卡片的方式组织起来，复盘或前瞻都变得更直觉。
+        </div>
+    </div>
+
+    <!-- 用途卡片：两列 -->
+    <div class="card-grid">
+        <div class="info-card">
+            <h3>对照参考</h3>
+            <ul>
+                <li>历年分站冠军与用时</li>
+                <li>不同赛道特性与极速对比</li>
+                <li>车队积分与引擎供应商</li>
+                <li>轮胎配方与温度窗口</li>
+            </ul>
+        </div>
+        <div class="info-card">
+            <h3>延伸阅读</h3>
+            <ul>
+                <li>空气动力学套件演变</li>
+                <li>安全规则与车手保护</li>
+                <li>混动系统与能量回收</li>
+                <li>著名对决与赛季回顾</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 适合人群（标签块） -->
+    <div class="audience-block">
+        <h2>适合这样的你</h2>
+        <div class="audience-tags">
+            <span>赛事入门爱好者</span>
+            <span>数据对照型读者</span>
+            <span>赛车文化延伸者</span>
+            <span>周末看赛前做功课</span>
+            <span>喜欢干净信息呈现</span>
+        </div>
+    </div>
+
+    <!-- 提示框 / 引用块 -->
+    <div class="callout">
+        <strong>一点说明</strong>：赛车世界的数据量庞大，本页仅作为索引式的卡片集合，方便你在不同话题间快速切换。具体的技术参数和赛事结果，建议以官方记录为准。若有兴趣深入了解某个方向，可以顺着卡片中的线索做更细致的检索。
+    </div>
+
+    <!-- 自然链接段落（嵌入 a 标签） -->
+    <div class="natural-link-section">
+        <p>如果你正在寻找一个整合了赛事结果、车辆规格和赛道档案的页面，<a href="https://home-speedracing.com">极速赛车</a> 提供了一种按主题梳理的浏览方式。它的卡片结构很适合在赛前快速查阅圈速对比，或者赛后对照策略差异。</p>
+        <p>另一个常用的场景是：当你读到某篇报道提到“某某赛道极速纪录”时，可以把链接页面当作一个静态的参考锚点，核实数据、了解背景，而不必在多个页面之间来回跳转。</p>
+    </div>
+
+    <!-- FAQ 摘要 -->
+    <div class="faq-mini">
+        <div class="faq-item">
+            <div class="q">Q：页面里的数据多久更新一次？</div>
+            <div class="a">赛事数据会随赛季推进而补充，核心的赛道信息和车辆参数保持相对稳定。建议在重要比赛周末前留意版本日期。</div>
+        </div>
+        <div class="faq-item">
+            <div class="q">Q：可以用于个人学习或笔记整理吗？</div>
+            <div class="a">当然。卡片设计本身就是为了方便摘录和对照，你可以把它当作一个起点，再结合自己的观察做延伸。</div>
+        </div>
+    </div>
+
+    <footer>
+        · 内容仅供参考 · 信息卡片式索引 ·
+    </footer>
+
+</div>
+</body>
+</html>
